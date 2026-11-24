@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "generate": "node generate_results.mjs"
   },
   "dependencies": {
     "@google/genai": "^2.4.0",
