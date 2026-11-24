@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { GoogleGenAI } from '@google/genai';
 import { Sparkles, Send, Key, CheckCircle, AlertCircle, RefreshCw, Code2, BookOpen, Layers } from 'lucide-react';
 
