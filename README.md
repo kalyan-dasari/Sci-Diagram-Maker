@@ -1,63 +1,43 @@
-# Assessment AI Studio App
+# Deep Trace Cybernetics • Assessor Portal (Technical Assessment Evaluation Engine)
 
-An AI-powered assessment and evaluation application built with **Vite**, **React 18**, **TypeScript**, **Tailwind CSS**, and **Google Gemini API** (`@google/genai`).
+A technical candidate evaluation platform built with **Vite**, **React 18**, **TypeScript**, **Tailwind CSS**, and **Google Gemini 2.5 Flash** (`@google/genai`).
 
----
-
-## 🚀 Quick Start
-
-### 1. Prerequisites
-- **Node.js**: v18.0.0 or higher
-- **npm** (included with Node.js)
-
-### 2. Environment Configuration (Optional)
-Copy [.env.example](.env.example) to `.env.local` and add your Gemini API key:
-```bash
-GEMINI_API_KEY=your_gemini_api_key_here
-```
-> **Note:** If no API key is provided, the application runs in **Interactive Demo Mode** and provides sample evaluation outputs. You can also paste your Gemini API key directly into the application header.
+Designed specifically for hiring managers and technical assessors evaluating Full Stack / Backend / Security candidate submissions.
 
 ---
 
-## 🛠️ Available Commands
+## ✨ Features
 
-Run these commands in PowerShell or your terminal inside this project directory (`K:\Big Things\Assessment`):
+- **No Mock/Demo Mode:** Direct, production-grade AI grading powered by Gemini 2.5 Flash.
+- **Candidate Submission Ingestion:**
+  - Candidate details, GitHub repository link, demo video link.
+  - Multi-tenant controllers, authentication & RBAC middleware.
+  - Database schema, foreign keys, indexes, and migrations.
+  - Candidate engineering notes & scalability answers.
+- **Automated Rubric Evaluation:**
+  - **Authentication & RBAC (20 pts):** JWT validity, password hashing, 3-tier role enforcement.
+  - **Multi-Tenant Data Isolation (25 pts):** Mandatory cross-tenant scenario testing (e.g. Campaign 201 isolation; prevents Tenant A from accessing Tenant B).
+  - **API Architecture & Validation (20 pts):** RESTful design, lifecycle state transitions, pagination.
+  - **SQL Security (15 pts):** Parameterized queries vs SQL injection, foreign keys.
+  - **Scalability & Engineering Notes (20 pts):** Assessment of scaling to 1k tenants/1M users, JWT revocation, production 500 error debugging.
+- **Auditing & Interview Probing:**
+  - Security audit badge (Tenant Leak check, SQL Injection safety, JWT validity).
+  - Highlights key strengths and critical deficiencies.
+  - Generates 4 tailored follow-up technical interview questions based directly on the candidate's code.
+- **Persistence & Exporting:**
+  - Export evaluation scorecard as a clean Markdown report (`.md`).
+  - Browser `localStorage` evaluation history for managing and comparing multiple candidates.
+
+---
+
+## 🚀 Running the Project
 
 ### Start Development Server
 ```bash
 npm run dev
 ```
-- Opens the app on [http://localhost:3000](http://localhost:3000)
-- Supports live hot module reloading (HMR)
+Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 
-### Build for Production
-```bash
-npm run build
-```
-- Compiles TypeScript and bundles production-ready assets into the `dist/` directory.
-
-### Preview Production Build
-```bash
-npm run preview
-```
-- Serves the built production bundle locally to test performance and assets.
-
----
-
-## 📁 Project Structure
-
-```
-Assessment/
-├── .env.example        # Environment variable template
-├── .env.local          # Local environment configuration
-├── index.html          # HTML entry point
-├── package.json        # Project metadata and dependencies
-├── postcss.config.js   # PostCSS configuration for Tailwind CSS
-├── tailwind.config.js  # Tailwind CSS styling configuration
-├── tsconfig.json       # TypeScript compiler options
-├── vite.config.ts      # Vite bundler configuration
-└── src/
-    ├── App.tsx         # Main assessment application & Gemini interface
-    ├── index.css       # Global styles & Tailwind directives
-    └── main.tsx        # React root mounting point
-```
+### Gemini API Key Configuration
+- Set `GEMINI_API_KEY=your_key` in [.env.local](.env.local)
+- Or enter your key in the top navigation bar inside the UI (persisted locally in your browser).
