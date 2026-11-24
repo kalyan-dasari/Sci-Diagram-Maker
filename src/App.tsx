@@ -83,7 +83,7 @@ export default function App() {
   // Generation Modal & execution state
   const [showGenerateModal, setShowGenerateModal] = useState<boolean>(false);
   const [targetConceptId, setTargetConceptId] = useState<number>(1);
-  const [selectedModel, setSelectedModel] = useState<string>('gemini-2.5-flash');
+  const [selectedModel, setSelectedModel] = useState<string>('gemini-3.5-flash-lite');
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
   const [progressMessage, setProgressMessage] = useState<string>('');
   const [genSuccessMsg, setGenSuccessMsg] = useState<string | null>(null);
@@ -765,9 +765,10 @@ export default function App() {
                   disabled={isGenerating}
                   className="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs text-slate-800 font-mono focus:outline-none focus:border-indigo-500 cursor-pointer"
                 >
-                  <option value="gemini-2.5-flash">gemini-2.5-flash</option>
-                  <option value="gemini-2.5-flash-lite">gemini-2.5-flash-lite (Free Tier)</option>
-                  <option value="gemini-1.5-flash">gemini-1.5-flash (Fallback)</option>
+                  <option value="gemini-3.5-flash-lite">gemini-3.5-flash-lite (Recommended)</option>
+                  <option value="gemini-3.5-flash">gemini-3.5-flash</option>
+                  <option value="gemini-flash-lite-latest">gemini-flash-lite-latest</option>
+                  <option value="gemini-flash-latest">gemini-flash-latest</option>
                 </select>
               </div>
             </div>

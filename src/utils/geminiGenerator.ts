@@ -108,7 +108,7 @@ export async function generateDiagramForConcept(
   apiKey: string,
   concept: string,
   conceptPrompt: string,
-  modelName = 'gemini-2.5-flash',
+  modelName = 'gemini-3.5-flash-lite',
   onProgress?: ProgressCallback
 ): Promise<GenerationLog> {
   const ai = new GoogleGenAI({ apiKey });

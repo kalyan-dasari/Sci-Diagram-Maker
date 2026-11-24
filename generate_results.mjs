@@ -101,10 +101,30 @@ function validateSvgBasic(svg) {
   return { allPassed, checks };
 }
 
+async function callWithRetry(ai, modelName, contents, config, maxRetries = 3) {
+  let attempt = 0;
+  let delay = 2000;
+  while (attempt <= maxRetries) {
+    try {
+      return await ai.models.generateContent({ model: modelName, contents, config });
+    } catch (err) {
+      attempt++;
+      const isRetryable = err?.status === 429 || err?.status === 503 || /429|503|resource_exhausted|unavailable|high demand/i.test(String(err));
+      if (isRetryable && attempt <= maxRetries) {
+        console.log(`  ⏳ Model busy/rate-limited (status ${err?.status || 503}). Retrying attempt ${attempt}/${maxRetries} in ${delay/1000}s...`);
+        await new Promise(r => setTimeout(r, delay));
+        delay *= 2;
+      } else {
+        throw err;
+      }
+    }
+  }
+}
+
 async function runPartA() {
   console.log('🚀 Starting Part A: AI Generation & Validation for 5 UK GCSE Concepts...\n');
   const ai = new GoogleGenAI({ apiKey: API_KEY });
-  const modelName = 'gemini-2.5-flash';
+  const modelName = 'gemini-3.5-flash-lite';
   const results = [];
 
   for (const c of CONCEPTS) {
@@ -115,12 +135,8 @@ async function runPartA() {
 
     const userPrompt = `Create an animated SVG diagram for UK GCSE students representing this concept:\n"${c.text}"`;
     
-    // Call Gemini
-    const resp = await ai.models.generateContent({
-      model: modelName,
-      contents: userPrompt,
-      config: { systemInstruction: SYSTEM_PROMPT, temperature: 0.3 }
-    });
+    // Call Gemini with retry
+    const resp = await callWithRetry(ai, modelName, userPrompt, { systemInstruction: SYSTEM_PROMPT, temperature: 0.3 });
 
     let raw = (resp.text || '').replace(/^```(xml|svg)?/i, '').replace(/```$/g, '').trim();
     const start = raw.indexOf('<svg');
@@ -136,11 +152,7 @@ async function runPartA() {
     if (!validation.allPassed) {
       retries++;
       console.log(`  ⚠️ Validation failed, retrying once with error feedback...`);
-      const retryResp = await ai.models.generateContent({
-        model: modelName,
-        contents: `${userPrompt}\n\nREPAIR: Ensure explicit <title>, >=3 text labels, and animation inside viewBox="0 0 800 500".`,
-        config: { systemInstruction: SYSTEM_PROMPT, temperature: 0.2 }
-      });
+      const retryResp = await callWithRetry(ai, modelName, `${userPrompt}\n\nREPAIR: Ensure explicit <title>, >=3 text labels, and animation inside viewBox="0 0 800 500".`, { systemInstruction: SYSTEM_PROMPT, temperature: 0.2 });
       raw = (retryResp.text || '').replace(/^```(xml|svg)?/i, '').replace(/```$/g, '').trim();
       const s = raw.indexOf('<svg');
       const e = raw.lastIndexOf('</svg>');
