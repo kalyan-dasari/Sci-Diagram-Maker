@@ -126,3 +126,4 @@ In accordance with the specification, every SVG diagram is verified by code befo
 
 - **Google Gemini 3.5 Flash Lite (`@google/genai`):** Used to generate animated SVG code according to UK GCSE curriculum concepts and handle automated repair retries.
 - **Antigravity (AI Assistant):** Assisted in scaffolding the Vite + React TypeScript architecture, establishing the 5-point SVG validation engine, and structuring the project according to assignment criteria.
+- **ChatGPT:** For research and better understanding.
